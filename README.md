@@ -1,4 +1,4 @@
-# Interrupt Call
+# 💡 Interrupt Call
 
 The goal is to design a program for building a display that will show the number of times a button has been pressed, counting up to a maximum of 7. In this project, a 7-segment display is used to present the result. Two buttons will be used, A1 for counting and A2 for resetting the display value.
 
@@ -26,16 +26,17 @@ The goal is to design a program for building a display that will show the number
 **2. Programming Steps:**
   - In your Arduino code:
     
-    - 🚀 Includes the necessary libraries to use AVR-specific functions and macros.
-    - 📊 Declares a global variable counter to track the count.
-    - 📊 Defines various functions (zero, one, two, etc.) that configure the microcontroller pins to display digits on the 7-segment display. Each function corresponds to a digit from 0 to 7.
-    - 📊 In the main function, configures the I/O pins (B0-B3 and D4-D7) as outputs (to control the 7-segment display) and sets the initial display to zero.
-    - 📊 Configures external interrupts INT0 (PD2 pin) and INT1 (PD3 pin) to detect the falling edge using EICRA.
-    - ✅ Enables global interrupts using sei().
-    - 🔄 Enters an infinite loop while(1) to keep the program running continuously.
-    - 📊 Defines two interrupt service routines (ISRs): ISR(INT1_vect) and ISR(INT0_vect).
-    - 📊 In the ISR(INT1_vect), an array of function pointers display_num is used to switch between display functions and increment the counter when the button associated with INT1 is pressed. The Serial.print() function is used for debugging (printing the current value of the counter).
-    - 📊 In the ISR(INT0_vect), the display is reset to zero, and the counter is initialized again.
+    - 📌 Includes the necessary libraries to use AVR-specific functions and macros.
+    - 📈 Declares a global variable `counter` to track the count.
+    - 🛠️ Defines various functions (zero, one, two, etc.) that configure the microcontroller pins to display digits on the 7-segment display. Each function corresponds to a digit from 0 to 7.
+    - 🏁 In the main function, configures the I/O pins (B0-B3 and D4-D7) as outputs (to control the 7-segment display) and sets the initial display to zero.
+    - 🧩 Configures external interrupts INT0 (PD2 pin) and INT1 (PD3 pin) to detect the falling edge using EICRA.
+    - 🚨 Enables global interrupts using `sei()`.
+    - 🔁 Enters an infinite loop `while(1)` to keep the program running continuously.
+    - 🛠️ Defines two interrupt service routines (ISRs): ISR(INT1_vect) and ISR(INT0_vect).
+    - 🛠️ In the ISR(INT1_vect), an array of function pointers `display_num` is used to switch between display functions and increment the counter when the button associated with INT1 is pressed. The `Serial.print()` function is used for debugging (printing the current value of the counter).
+    - 🛠️ In the ISR(INT0_vect), the display is reset to zero, and the counter is initialized again.
+    - 🚀 # Interrupt Call
 
    **Solution:**
    ```c
@@ -44,47 +45,6 @@ The goal is to design a program for building a display that will show the number
   #include <util/delay.h>
   
   unsigned int counter = 0;
-  
-  void zero(){
-    PORTB = 0b00000111;
-    PORTD = 0b11101100;
-  }
-  
-  void one(){
-    PORTB = 0b00000001;
-    PORTD = 0b00101100;
-  }
-  
-  void two(){
-    PORTB = 0b00001011;
-    PORTD = 0b11001100;
-  }
-  
-  void three(){
-    PORTB = 0b00001011;
-    PORTD = 0b01101100;
-  }
-  
-  void four(){
-    PORTB = 0b00001101;
-    PORTD = 0b00101100;
-  }
-  
-  void five(){  
-    PORTB = 0b00001110;
-    PORTD = 0b01101100;
-  }
-  
-  void six(){
-    PORTB = 0b00001110;
-    PORTD = 0b11101100;
-  }
-  
-  void seven(){
-    PORTB = 0b00000011;
-    PORTD = 0b00101100;
-  }
-  
   
   int main(void) {
     DDRB = 0b00001111;
