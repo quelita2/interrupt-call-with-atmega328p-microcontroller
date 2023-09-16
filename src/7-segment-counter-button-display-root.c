@@ -44,7 +44,6 @@ void seven(){
 }
 
 int main(void){
-  Serial.begin(9600);
   DDRD = 0b11110000;
   DDRB = 0b00001111;
   
@@ -55,7 +54,6 @@ int main(void){
   while(1){
     if((!(PIND & 0x08) && counter < 7) && enable_count == 1){ 
       counter++;
-      Serial.print(counter);
       display_num[counter]();
       enable_count = 0;
     }else if((PIND & 0x08)){
