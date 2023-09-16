@@ -1,18 +1,6 @@
 #include <util/delay.h>
 
-unsigned const int A = 9; // B
-unsigned const int B = 8; // B
-unsigned const int C = 5; // D
-unsigned const int D = 6; // D
-unsigned const int E = 7; // B
-unsigned const int F = 10;// B
-unsigned const int G = 11;// B
-unsigned const int H = 4; // D
-
-unsigned const int PIN_BUTTON_COUTER = 3;
-unsigned const int PIN_BUTTON_RESET = 2;
-
-unsigned int STATE_BUTTON_COUTER = 0;
+unsigned int enable_count = 1;
 unsigned int counter = 0;
 
 void zero(){
@@ -63,8 +51,6 @@ int main(void){
   zero(); // start display with zero;
   
   void (*display_num[8])() = {zero, one, two, three, four, five, six, seven};
-
-  int enable_count = 1;
   
   while(1){
     if((!(PIND & 0x08) && counter < 7) && enable_count == 1){ 
