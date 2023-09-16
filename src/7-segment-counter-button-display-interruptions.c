@@ -1,6 +1,7 @@
+#include <avr/io.h>
+#include <avr/interrupt.h>
 #include <util/delay.h>
 
-unsigned int enable_count = 1;
 unsigned int counter = 0;
 
 void zero(){
@@ -44,38 +45,33 @@ void seven(){
 }
 
 
-ISR (INT0_vect) {
-  if(!(PIND & 0x04)){
-    zero();
-    counter = 0;
-  }
-}
-
-ISR (INT1_vect) {
-  void (*display_num[8])() = { zero, one, two, three, four, five, six, seven };
-
-  if((!(PIND & 0x08) && counter < 7) && enable_count == 1){ 
-    counter++;
-    Serial.print(counter);
-    display_num[counter]();
-    enable_count = 0;
-  }else if((PIND & 0x08)){
-    enable_count = 1;
-  }
-}
-
-int main(void){
-  sei(); // enable interruptions;
-
-  DDRD = 0b11110000;
+int main(void) {
   DDRB = 0b00001111;
+  DDRD = 0b11110000;
   
-  zero(); // start display with zero;
+  zero(); // starts counter with zero value and enable pull up setting
 
-  EICRA = 0b00001010; // enable interruptions on up edge;
-  EIMSK = 0b00000000; // enable interruptions on INT0 and INT1;
+  EIMSK = 0b00000011; // enable INT0 and INT1 for external interruptions
+  EICRA = 0b00001010; // configure INT0 and INT1 to falling endge
+  
+  sei();
+  
+  while(1){} // main process
   
   return 0;
 }
 
+ISR(INT1_vect) {
+ void (*display_num[8])() = { zero, one, two, three, four, five, six, seven };
 
+  if(counter <= 7){
+    counter++;
+    Serial.print(counter);
+    display_num[counter]();  
+  }
+}
+
+ISR(INT0_vect) {
+ zero();
+ counter = 0;
+}
