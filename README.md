@@ -13,6 +13,9 @@ The goal is to design a program for building a display that will show the number
 |R2    |1       | pull-up Resistor          |Connect a pull-up resistor between the button pin and Vcc (power supply voltage).|
 
 ## 🤖 settings
+| Schematic  | Circuit View |
+|:----------:|:------------:|
+|![7 segments counter display schematic](./assets/imgs/schematic-view.png)|![7 segments counter display circuit view](./assets/imgs/circuit-view.png)|
 
 **Arduino Countdown Implementation:**
 
