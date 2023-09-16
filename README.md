@@ -36,7 +36,6 @@ The goal is to design a program for building a display that will show the number
     - 🛠️ Defines two interrupt service routines (ISRs): ISR(INT1_vect) and ISR(INT0_vect).
     - 🛠️ In the ISR(INT1_vect), an array of function pointers `display_num` is used to switch between display functions and increment the counter when the button associated with INT1 is pressed. The `Serial.print()` function is used for debugging (printing the current value of the counter).
     - 🛠️ In the ISR(INT0_vect), the display is reset to zero, and the counter is initialized again.
-    - 🚀 # Interrupt Call
 
    **Solution:**
    ```c
